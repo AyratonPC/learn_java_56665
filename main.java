@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -39,7 +40,17 @@ public class main {
         String[] user_str = input().split(" ");
         System.out.println(Arrays.toString(user_str));
         if (user_str.length != 3) {
-            System.out.println("Ошибка ввода.");
+            try {
+                throw new IOException();
+            } catch (IOException e) {
+                System.out.println("Ошибка ввода");
+            }
+        } else if () {
+            try {
+                throw new IOException();
+            } catch (IOException e) {
+                System.out.println("Ошибка. Разные цифры");
+            }
         } else {
             if (!rim_dct.containsKey(user_str[0])) {
                 int first_number = Integer.parseInt(user_str[0]);
@@ -53,7 +64,11 @@ public class main {
                 String naked = user_str[1];
                 int result = exam_user_str(first_number, second_number, naked);
                 if (result < 0) {
-                    System.out.println("Ошибка. В римской системе нет отрицательных чисел");
+                    try {
+                        throw new IOException();
+                    } catch (IOException e) {
+                        System.out.println("Ошибка. В римской системе нет отрицательных чисел");
+                    }
                 } else {
                     String[] keys = rim_dct.keySet().toArray(new String[0]);
                     int index = 0;
