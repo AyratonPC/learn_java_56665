@@ -1,8 +1,6 @@
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.ArrayList;
+import java.util.*;
+
 
 public class main {
     public static int calc(int num, int num2, String str) {
@@ -39,7 +37,28 @@ public class main {
         return scanner.nextLine();
     }
 
-    public static void main(String[] args) {
+    public static String rimToArabian(int arabianNum) {
+        TreeMap<Integer, String> rimDct = new TreeMap<>();
+        rimDct.put(100, "C");
+        rimDct.put(90, "XC");
+        rimDct.put(50, "L");
+        rimDct.put(40, "XL");
+        rimDct.put(10, "X");
+        rimDct.put(9, "IX");
+        rimDct.put(5, "V");
+        rimDct.put(4, "IV");
+        rimDct.put(1, "I");
+
+        String rimNum = "";
+        while (arabianNum > 0) {
+            int arabianKey = rimDct.floorKey(arabianNum);
+            arabianNum -= arabianKey;
+            rimNum += rimDct.get(arabianKey);
+        }
+        return rimNum;
+    }
+
+    public static void main(String[] args) throws IOException {
         HashMap<String, Integer> rim_dct = new HashMap<>();
         rim_dct.put("I", 1);
         rim_dct.put("II", 2);
@@ -54,20 +73,12 @@ public class main {
 
         String[] user_str = input().split(" ");
         if (user_str.length != 3) {
-            try {
-                throw new IOException();
-            } catch (IOException e) {
-                System.out.println("Ошибка ввода");
-            }
+            throw new IOException();
         } else if (isNumeric(user_str[0]) && isNumeric(user_str[2])) {
             int first_number = Integer.parseInt(user_str[0]);
             int second_number = Integer.parseInt(user_str[2]);
             if (first_number > 10 || second_number > 10 || first_number <= 0 || second_number <= 0)  {
-                try {
-                    throw new IOException();
-                } catch (IOException e) {
-                    System.out.println("цифры от 1 до 10");
-                }
+                throw new IOException();
             } else {
                 String naked = user_str[1];
                 int result = calc(first_number, second_number, naked);
@@ -79,29 +90,12 @@ public class main {
             String naked = user_str[1];
             int result = calc(first_number, second_number, naked);
             if (result < 0) {
-                try {
-                    throw new IOException();
-                } catch (IOException e) {
-                    System.out.println("Ошибка. В римской системе нет отрицательных чисел");
-                }
+                throw new IOException();
             } else {
-                String[] keys = rim_dct.keySet().toArray(new String[0]);
-                int index = 0;
-                for (int i = 0; i < keys.length; i++) {
-                    if (rim_dct.get(keys[i]) == result) {
-                        index = i;
-                        break;
-                    }
-                }
-                String resultStr = keys[index];
-                System.out.println(resultStr);
+                System.out.println(rimToArabian(result));
             }
         } else {
-            try {
-                throw new IOException();
-            } catch (IOException e) {
-                System.out.println("Ошибка. Разные цифры");
-            }
+            throw new IOException();
         }
     }
 }
